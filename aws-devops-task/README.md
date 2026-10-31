@@ -17,7 +17,7 @@ Highly available web application on AWS, provisioned entirely with Terraform and
 | Screenshots | [`docs/screenshots/`](docs/screenshots) |
 | End-to-end validation script | [`scripts/validate.sh`](scripts/validate.sh) |
 
-**Working URL:** `https://<your-domain>`. Fill in after deployment.
+**Working URL:** https://devops-task.deepaisetu.online
 
 ---
 
@@ -172,7 +172,7 @@ The bootstrap state bucket has `prevent_destroy`. Delete it manually afterwards 
 | `FreeTierRestrictionError` creating RDS | AWS Free plan account: set `db_backup_retention_days = 1` and `db_max_allocated_storage = 0` (and the matching GitHub variables) |
 | `/db` returns 503 | Instance role can read the secret? DB SG allows the app SG? Check `journalctl -u app` |
 | No ALB logs | Logs are delivered every 5 minutes under `alb/AWSLogs/<account-id>/` |
-| Pipeline `AccessDenied` on assume role | `AWS_ROLE_ARN` secret, `production` environment name, and the `github_repo` value used in bootstrap |
+| Pipeline `Not authorized to perform sts:AssumeRoleWithWebIdentity` | Check the `AWS_ROLE_ARN` secret, the `production` environment name and the `github_repo` value used in bootstrap. CloudTrail `AssumeRoleWithWebIdentity` events show the exact subject GitHub sent; the trust policy accepts both the classic and the ID-based (`OWNER@id/REPO@id`) formats |
 
 ## 8. Possible next steps
 
